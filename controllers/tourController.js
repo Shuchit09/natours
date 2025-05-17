@@ -14,7 +14,7 @@ exports.getAllTours = async (req, res) => {
 
         // 2. ADVANCEDD FILTERING
         const queryStr = JSON.stringify(queryObj)
-        queryStr.replace(/\b(gte|gt|lte|lt)\b/g,match=>`$${match}`);
+        queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
         console.log(JSON.parse(queryStr))
 
         const query = Tour.find(queryObj);
@@ -50,7 +50,7 @@ exports.getAllTours = async (req, res) => {
 
 exports.getTour = async (req, res) => {
     try {
-        const tour = await Tour.findById(req.params.id);
+        const tour = await Tour.findById(req.params.id); //Tour.findOne{{_id:req.params.id}}
 
         res.status(200).json({
             status: 'success',
