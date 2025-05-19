@@ -11,7 +11,8 @@ mongoose.connect(DB, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    
 }).then(() => {
     console.log("DB connection successful!");
 });
@@ -38,7 +39,7 @@ const deleteData = async () => {
     } catch (err) {
         console.log(err);
     }
-    process.exit();
+    process.exit(); //exit the terminal process
 };
 
 // HANDLE COMMAND LINE ARGUMENTS
