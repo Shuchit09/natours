@@ -4,8 +4,9 @@
   "description": "learning node, express and mongodb",
   "main": "app.js",
   "scripts": {
-    "start:prod": "set NODE_ENV=production && nodemon server.js",
-    "start": "nodemon server.js"
+    "start:prod": "powershell -Command \"$env:NODE_ENV='production'; nodemon server.js\"",
+    "start": "powershell -Command \"$env:NODE_ENV='development'; nodemon server.js\"",
+    "debug":"ndb server.js"
   },
   "author": "shuchit",
   "license": "ISC",
