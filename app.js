@@ -9,6 +9,7 @@ const helmet = require('helmet')
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp')
+const reviewRouter = require("./routes/reviewRoutes")
 
 const app = express();
 const allowedFields = ['duration', 'ratingsQuantity', 'ratingsAverage', 'maxGroupSize', "difficulty", "price"]
@@ -62,6 +63,8 @@ app.use((req, res, next) => {
 app.use('/api/v1/tours', tourRouter);
 // For users route
 app.use('/api/v1/users', userRouter);
+// For reviews route
+app.use('/api/v1/reviews', reviewRouter);
 // For unhandled routes 
 app.all('*', (req, res, next) => {
     // res.status(404).json({
