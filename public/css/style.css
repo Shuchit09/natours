@@ -137,7 +137,7 @@ body {
     to(#eb4d4b)
   );
   background-image: linear-gradient(to right, #ff7730, #eb4d4b);
-  font-size: 3.5rem;
+  font-size: 2.75rem;
 }
 
 .heading-primary,
@@ -540,7 +540,7 @@ body {
 
 .section-map {
   position: relative;
-  height: 65rem;
+  height: 55rem;
   margin-top: calc(0px - var(--section-rotate));
 }
 
@@ -552,8 +552,8 @@ body {
 }
 
 .marker {
-  background-image: url('../img/pin.png');
-  background-size: cover;
+  /* background-image: url('../img/pin.png'); */
+  /* background-size: cover; */
   width: 32px;
   height: 40px;
   cursor: pointer;
@@ -607,6 +607,13 @@ body {
   overflow-x: scroll;
   -ms-scroll-snap-type: x mandatory;
   scroll-snap-type: x mandatory;
+
+  /* Hide scrollbar for Webkit (Chrome, Safari) */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.reviews::-webkit-scrollbar {
+  display: none;
 }
 .reviews__card {
   width: 30rem;
@@ -830,6 +837,7 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  justify-content: flex-end;
 }
 .footer__nav li {
   margin-left: 1.5rem;

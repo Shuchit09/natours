@@ -5,19 +5,34 @@ const globalErrorHandler = require('./controllers/errorController')
 const tourRouter = require('./routes/tourRoutes')
 const userRouter = require("./routes/userRoutes")
 const rateLimit = require('express-rate-limit')
+const cookieParser = require('cookie-parser')
 const helmet = require('helmet')
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp')
 const reviewRouter = require("./routes/reviewRoutes")
+const viewRouter = require("./routes/viewRoutes")
+const path = require('path')//native and built-in
 
 const app = express();
-const allowedFields = ['duration', 'ratingsQuantity', 'ratingsAverage', 'maxGroupSize', "difficulty", "price"]
+
+const allowedFields = ['duration', 'ratingsQuantity', 'ratingsAverage', 'maxGroupSize', "difficulty", "price"];
+
+const isDev = process.env.NODE_ENV === "development";
+
+
+app.set('view engine', 'pug'); //don't need to install and require, it is built in
+app.set('views', path.join(__dirname, 'views'))
+
+// Serving static files
+// app.use(express.static(`${__dirname}/public`))
+app.use(express.static(path.join(__dirname, 'public')))
 
 // MIDDLEWARES
 
 // Set security HTTP headers
-app.use(helmet());
+// app.use(helmet());
+
 
 // Development loggin
 if (process.env.NODE_ENV === "development") {
@@ -35,6 +50,11 @@ app.use('/api', limiter); // applying rate limit for /api url, so used at the to
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));//limiting data coming in body
 
+app.use(express.urlencoded({ extended: true, limit: '10kb' }))
+
+// Cookie parser
+app.use(cookieParser());
+
 // Data sanitization against NoSQL query injection
 // e.g. {"email": {"$gt":""}}, will return all the users
 app.use(mongoSanitize());
@@ -47,18 +67,20 @@ app.use(hpp({
     whitelist: [...allowedFields]
 })); //solves duplicate params, making only to use the last one, white listed params will be allowed to be duplicates
 
-// Serving static files
-app.use(express.static(`${__dirname}/public`))
+
 
 // Test Middleware
 app.use((req, res, next) => {
     // console.log('Hello from the middleware!!!')
     req.requestTime = new Date().toISOString();
     // console.log(req.headers)
+    // console.log(req.cookies)
     next();
 })
 
 // ROUTE HANDLING MIDDLEWARES
+// To render pug files
+app.use('/', viewRouter)
 // For tours route
 app.use('/api/v1/tours', tourRouter);
 // For users route
