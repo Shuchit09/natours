@@ -11,6 +11,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp')
 const reviewRouter = require("./routes/reviewRoutes")
+const bookingRouter = require("./routes/bookingRoutes")
 const viewRouter = require("./routes/viewRoutes")
 const path = require('path')//native and built-in
 
@@ -87,6 +88,8 @@ app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 // For reviews route
 app.use('/api/v1/reviews', reviewRouter);
+// For booking route
+app.use('/api/v1/bookings', bookingRouter);
 // For unhandled routes 
 app.all('*', (req, res, next) => {
     // res.status(404).json({

@@ -2,6 +2,7 @@ const express = require('express');
 const userController = require('./../controllers/userController');
 const authController = require("./../controllers/authController")
 
+
 const router = express.Router();
 
 router.post('/signup', authController.signup)
@@ -13,14 +14,13 @@ router.patch('/resetPassword/:token', authController.resetPassword)
 
 router.use(authController.protect); //protects all the route after this middleware
 
-router.use(authController.restrictTo('admin'));
-
-router.patch(
-    '/updateMyPassword', authController.updatePassword)
-
+router.patch('/updateMyPassword', authController.updatePassword)
 router.get('/me', userController.getMe, userController.getUser)
-router.patch('/updateMe', userController.updateMe)
+router.patch('/updateMe', userController.uploadUserPhoto, userController.resizeUserPhoto, userController.updateMe) // single because we have to have only one single file, and the field it needs to add in
 router.delete('/deleteMe', userController.deleteMe)
+
+
+router.use(authController.restrictTo('admin'));
 
 router
     .route('/')
