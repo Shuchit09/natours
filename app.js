@@ -6,6 +6,7 @@ const tourRouter = require('./routes/tourRoutes')
 const userRouter = require("./routes/userRoutes")
 const rateLimit = require('express-rate-limit')
 const cookieParser = require('cookie-parser')
+const compression = require('compression')
 const helmet = require('helmet')
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
@@ -68,14 +69,11 @@ app.use(hpp({
     whitelist: [...allowedFields]
 })); //solves duplicate params, making only to use the last one, white listed params will be allowed to be duplicates
 
-
+app.use(compression())
 
 // Test Middleware
 app.use((req, res, next) => {
-    // console.log('Hello from the middleware!!!')
     req.requestTime = new Date().toISOString();
-    // console.log(req.headers)
-    // console.log(req.cookies)
     next();
 })
 
